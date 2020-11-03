@@ -9,11 +9,18 @@ class Rover(initialLocation: Location) {
 
     fun move() {
         when (currentLocation.direction) {
-            Directions.EAST -> currentLocation.x = getNextValue(currentLocation.x)
+            Directions.EAST -> currentLocation.x = increment(currentLocation.x)
+            Directions.WEST -> currentLocation.x = decrement(currentLocation.x)
         }
     }
 
-    private fun getNextValue(currentPosition: Int) =
+    private fun decrement(currentPosition: Int) =
+        if (currentPosition > lowerBound)
+            currentPosition - 1
+        else
+            upperBound
+
+    private fun increment(currentPosition: Int) =
         if (currentPosition < upperBound)
             currentPosition + 1
         else
