@@ -10,3 +10,14 @@ it is facing. These could be any coordinates, supplied as arguments `(x, y, dire
 
 ## Requirements
 - JVM version 11
+
+## How To Use
+Use the included Gradle wrapper scripts (`gradlew` on MacOS and Linux or `gradlew.bat` on Windows) to 
+build and run tests.  
+
+## Used Tooling
+- IntelliJ (no necessary to run the project)
+- Gradle
+- Kotlin
+- JUnit 5
+- Strikt (for assertions)
