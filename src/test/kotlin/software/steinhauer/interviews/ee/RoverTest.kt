@@ -9,76 +9,77 @@ import strikt.assertions.isEqualTo
 
 class RoverTest {
 
+    private val centeredHeadingNorth: Location = Location(0, 0, NORTH)
     private val centeredHeadingEast: Location = Location(0, 0, EAST)
     private val centeredHeadingWest: Location = Location(0, 0, WEST)
+    private val middleFarNorthHeadingNorth: Location = Location(0, 10, NORTH)
     private val middleFarEastHeadingEast: Location = Location(10, 0, EAST)
+    private val middleFarWestHeadingWest: Location = Location(-10, 0, WEST)
 
     @Nested
-    @DisplayName("Given (0, 0, EAST) as initial location")
-    inner class GivenInitialisedCenteredHeadingEast {
+    @DisplayName("Given the rover initially is heading EAST")
+    inner class GivenInitialHeadingIsEast {
+        @Test
+        fun `When position is in the center and move is called once Then it should be at (1, 0, EAST)`() =
+            executeRoverMove(centeredHeadingEast, Location(1, 0, EAST))
 
         @Test
-        fun `When invoking move Then rover is located at (1, 0, EAST)`() {
-            val rover = Rover(centeredHeadingEast)
-            rover.move()
-            expectThat(rover.currentLocation).isEqualTo(Location(1, 0, EAST))
-        }
-
-        @Test
-        fun `When invoking move twice Then rover is located at (2, 0, EAST)`() {
-            val rover = Rover(centeredHeadingEast)
-            rover.move()
-            rover.move()
-
-            expectThat(rover.currentLocation).isEqualTo(Location(2, 0, EAST))
-        }
+        fun `When position is in the far east and move is called 3 times Then it should be at (-8, 0, EAST)`() =
+            executeRoverMove(
+                initialPosition = middleFarEastHeadingEast,
+                numberOfMoves = 3,
+                expectedLocation = Location(-8, 0, EAST)
+            )
     }
 
     @Nested
-    @DisplayName("Given (10, 0, EAST) as initial location")
-    inner class GivenInitialisedMiddleFarEastHeadingEast {
+    @DisplayName("Given the rover initially is heading WEST")
+    inner class GivenInitialHeadingIsWest {
+        @Test
+        fun `When position is in the center and move is called twice Then it should be at (-2, 0, WEST)`() =
+            executeRoverMove(
+                initialPosition = centeredHeadingWest,
+                numberOfMoves = 2,
+                expectedLocation = Location(-2, 0, WEST)
+            )
 
         @Test
-        fun `When invoking move Then rover is on the far west side`() {
-            val rover = Rover(middleFarEastHeadingEast)
-            rover.move()
-
-            expectThat(rover.currentLocation).isEqualTo(Location(-10, 0, EAST))
-        }
-
-        @Test
-        fun `When invoking move three times Then rover is located at (-8, 0, EAST)`() {
-            val rover = Rover(middleFarEastHeadingEast)
-            repeat(3) {
-                rover.move()
-            }
-
-            expectThat(rover.currentLocation).isEqualTo(Location(-8, 0, EAST))
-
-        }
+        fun `When position is at the far west and we move 5 times Then it should be at (6, 0, WEST)`() =
+            executeRoverMove(
+                initialPosition = middleFarWestHeadingWest,
+                numberOfMoves = 5,
+                expectedLocation = Location(6, 0, WEST)
+            )
     }
 
     @Nested
-    @DisplayName("Given (0, 0, WEST) as initial location")
-    inner class GivenInitialisedCenteredHeadingWest {
+    @DisplayName("Given the rover initially is heading NORTH")
+    inner class GivenInitialHeadingIsNorth {
+        @Test
+        fun `When position is in the center and move is called once Then it should be at (0, 1, NORTH)`() =
+            executeRoverMove(
+                initialPosition = centeredHeadingNorth,
+                numberOfMoves = 1,
+                expectedLocation = Location(0, 1, NORTH)
+            )
 
         @Test
-        fun `When invoking move four times Then rover is on (-1, 0, WEST)`() {
-            val rover = Rover(centeredHeadingWest)
-            rover.move()
-
-            expectThat(rover.currentLocation).isEqualTo(Location(-1, 0, WEST))
-        }
-
-        @Test
-        fun `When invoking move 4 times THen rover is on (-4, 0, WEST)`() {
-            val rover = Rover(centeredHeadingWest)
-            repeat(4) {
-                rover.move()
-            }
-
-            expectThat(rover.currentLocation).isEqualTo(Location(-4, 0, WEST))
-        }
+        fun `When position is at the far north and we move 10 times Then it should be at (0, -1, NORTH)`() =
+            executeRoverMove(
+                initialPosition = middleFarNorthHeadingNorth,
+                numberOfMoves = 10,
+                expectedLocation = Location(0, -1, NORTH)
+            )
     }
 
+
+    private fun executeRoverMove(initialPosition: Location, expectedLocation: Location, numberOfMoves: Int = 1) {
+        val rover = Rover(initialPosition)
+
+        repeat(numberOfMoves) {
+            rover.move()
+        }
+
+        expectThat(rover.currentLocation).isEqualTo(expectedLocation)
+    }
 }
