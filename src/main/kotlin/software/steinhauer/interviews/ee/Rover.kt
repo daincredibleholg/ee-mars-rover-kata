@@ -10,6 +10,7 @@ class Rover(initialLocation: Location) {
     fun move() {
         when (currentLocation.direction) {
             Directions.NORTH -> currentLocation.y = increment(currentLocation.y)
+            Directions.SOUTH -> currentLocation.y = decrement(currentLocation.y)
             Directions.EAST -> currentLocation.x = increment(currentLocation.x)
             Directions.WEST -> currentLocation.x = decrement(currentLocation.x)
         }

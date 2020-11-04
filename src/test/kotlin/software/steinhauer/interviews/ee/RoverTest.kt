@@ -10,9 +10,11 @@ import strikt.assertions.isEqualTo
 class RoverTest {
 
     private val centeredHeadingNorth: Location = Location(0, 0, NORTH)
+    private val centeredHeadingSouth: Location = Location(0, 0, SOUTH)
     private val centeredHeadingEast: Location = Location(0, 0, EAST)
     private val centeredHeadingWest: Location = Location(0, 0, WEST)
     private val middleFarNorthHeadingNorth: Location = Location(0, 10, NORTH)
+    private val middleFarSouthHeadingSouth: Location = Location(0, -10, SOUTH)
     private val middleFarEastHeadingEast: Location = Location(10, 0, EAST)
     private val middleFarWestHeadingWest: Location = Location(-10, 0, WEST)
 
@@ -70,6 +72,27 @@ class RoverTest {
                 numberOfMoves = 10,
                 expectedLocation = Location(0, -1, NORTH)
             )
+    }
+
+    @Nested
+    @DisplayName("Given rover initially is heading SOUTH")
+    inner class GivenInitialHeadingIsSouth {
+        @Test
+        fun `When position is in the center and move is called 11 times Then it should be back at the initial coordinates`() =
+            executeRoverMove(
+                initialPosition = centeredHeadingSouth,
+                numberOfMoves = 11,
+                expectedLocation = centeredHeadingSouth
+            )
+
+        @Test
+        fun `When positioned in the far south and move is called twice Then it should be at (0, 9, SOUTH)`() =
+            executeRoverMove(
+                initialPosition = middleFarSouthHeadingSouth,
+                numberOfMoves = 2,
+                expectedLocation = Location(0, 9, SOUTH)
+            )
+
     }
 
 
