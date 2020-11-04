@@ -95,6 +95,27 @@ class RoverTest {
 
     }
 
+    @Nested
+    @DisplayName("Given rover is not located on x or y equal to 0")
+    inner class GivenInitialCoordinatesAreNotZeroBased {
+        @Test
+        fun `When initially at (1, 2, SOUTH) and moved twice Then rover is on (1, 0, SOUTH)`() =
+            executeRoverMove(
+                initialPosition = Location(1, 2, SOUTH),
+                numberOfMoves = 2,
+                expectedLocation = Location(1, 0, SOUTH)
+            )
+
+        @Test
+        fun `When initially at (2, -4, EAST) and moved once Then rover is on (3, -4, EAST)`() {
+            executeRoverMove(
+                initialPosition = Location(2, -4, EAST),
+                numberOfMoves = 1,
+                expectedLocation = Location(3, -4, EAST)
+            )
+        }
+    }
+
 
     private fun executeRoverMove(initialPosition: Location, expectedLocation: Location, numberOfMoves: Int = 1) {
         val rover = Rover(initialPosition)
